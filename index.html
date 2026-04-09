@@ -1,0 +1,1063 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Robert Potter — The Cyber Wizard</title>
+  <meta name="description" content="Cybersecurity professional, Air Force veteran, and ThreatLocker engineer based in Orlando, FL." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@400;500;600;700&family=Exo+2:wght@300;400;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #050a0e;
+      --bg2: #0a1118;
+      --bg3: #0d1a24;
+      --green: #00ff9d;
+      --cyan: #00d4ff;
+      --dim-green: #00994d;
+      --dim-cyan: #007a99;
+      --text: #c8d8e4;
+      --text-dim: #5a7a8a;
+      --border: rgba(0,255,157,0.15);
+      --border-cyan: rgba(0,212,255,0.15);
+      --mono: 'Share Tech Mono', monospace;
+      --display: 'Rajdhani', sans-serif;
+      --body: 'Exo 2', sans-serif;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--body);
+      font-size: 16px;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* SCANLINE OVERLAY */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0,0,0,0.03) 2px,
+        rgba(0,0,0,0.03) 4px
+      );
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    /* GRID BACKGROUND */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0,255,157,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,255,157,0.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(5,10,14,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-brand {
+      font-family: var(--mono);
+      font-size: 0.85rem;
+      color: var(--green);
+      letter-spacing: 0.05em;
+    }
+
+    .nav-brand span { color: var(--text-dim); }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      color: var(--text-dim);
+      text-decoration: none;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--green); }
+
+    /* SECTIONS */
+    section {
+      position: relative;
+      z-index: 1;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 6rem 2rem;
+    }
+
+    /* HERO */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding-top: 8rem;
+      max-width: 1100px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-tag {
+      font-family: var(--mono);
+      font-size: 0.8rem;
+      color: var(--green);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fadeUp 0.6s ease forwards 0.2s;
+    }
+
+    .hero-tag::before { content: '> '; color: var(--dim-green); }
+
+    .hero-name {
+      font-family: var(--display);
+      font-size: clamp(3rem, 8vw, 6.5rem);
+      font-weight: 700;
+      line-height: 1;
+      letter-spacing: 0.02em;
+      color: #fff;
+      margin-bottom: 0.25rem;
+      opacity: 0;
+      animation: fadeUp 0.6s ease forwards 0.4s;
+    }
+
+    .hero-title {
+      font-family: var(--display);
+      font-size: clamp(1.5rem, 4vw, 3rem);
+      font-weight: 600;
+      color: var(--green);
+      margin-bottom: 2rem;
+      opacity: 0;
+      animation: fadeUp 0.6s ease forwards 0.6s;
+    }
+
+    .hero-sub {
+      font-size: 1.05rem;
+      color: var(--text-dim);
+      max-width: 580px;
+      margin-bottom: 3rem;
+      font-weight: 300;
+      opacity: 0;
+      animation: fadeUp 0.6s ease forwards 0.8s;
+    }
+
+    .hero-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-bottom: 3rem;
+      opacity: 0;
+      animation: fadeUp 0.6s ease forwards 1s;
+    }
+
+    .badge {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: var(--cyan);
+      border: 1px solid var(--border-cyan);
+      padding: 0.3rem 0.75rem;
+      letter-spacing: 0.1em;
+      background: rgba(0,212,255,0.04);
+    }
+
+    .hero-cta {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      opacity: 0;
+      animation: fadeUp 0.6s ease forwards 1.2s;
+    }
+
+    .btn {
+      font-family: var(--mono);
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.85rem 2rem;
+      text-decoration: none;
+      transition: all 0.2s;
+      display: inline-block;
+    }
+
+    .btn-primary {
+      background: var(--green);
+      color: #050a0e;
+      font-weight: 700;
+    }
+
+    .btn-primary:hover {
+      background: #00cc7a;
+      transform: translateY(-2px);
+    }
+
+    .btn-secondary {
+      border: 1px solid var(--border);
+      color: var(--text-dim);
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--green);
+      color: var(--green);
+      transform: translateY(-2px);
+    }
+
+    /* SECTION HEADERS */
+    .section-label {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      color: var(--green);
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+
+    .section-label::before { content: '// '; color: var(--dim-green); }
+
+    .section-title {
+      font-family: var(--display);
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 3rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* ABOUT */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: start;
+    }
+
+    .about-text p {
+      color: var(--text);
+      margin-bottom: 1.25rem;
+      font-weight: 300;
+    }
+
+    .about-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: var(--border);
+    }
+
+    .stat-box {
+      background: var(--bg2);
+      padding: 1.5rem;
+      text-align: center;
+    }
+
+    .stat-num {
+      font-family: var(--display);
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--green);
+      display: block;
+    }
+
+    .stat-label {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      color: var(--text-dim);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+
+    /* EXPERIENCE */
+    .timeline {
+      position: relative;
+      padding-left: 2rem;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 1px;
+      background: linear-gradient(to bottom, var(--green), var(--cyan), transparent);
+    }
+
+    .timeline-item {
+      position: relative;
+      margin-bottom: 3rem;
+      padding-left: 1.5rem;
+    }
+
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -2.45rem;
+      top: 0.5rem;
+      width: 8px;
+      height: 8px;
+      background: var(--green);
+      border: 2px solid var(--bg);
+      transform: rotate(45deg);
+    }
+
+    .timeline-date {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: var(--cyan);
+      letter-spacing: 0.1em;
+      margin-bottom: 0.25rem;
+    }
+
+    .timeline-role {
+      font-family: var(--display);
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 0.1rem;
+    }
+
+    .timeline-company {
+      font-family: var(--mono);
+      font-size: 0.8rem;
+      color: var(--green);
+      margin-bottom: 0.75rem;
+    }
+
+    .timeline-desc {
+      color: var(--text-dim);
+      font-size: 0.95rem;
+      font-weight: 300;
+    }
+
+    /* CERTIFICATIONS */
+    .cert-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 1px;
+      background: var(--border);
+    }
+
+    .cert-card {
+      background: var(--bg2);
+      padding: 1.5rem;
+      position: relative;
+      overflow: hidden;
+      transition: background 0.2s;
+    }
+
+    .cert-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--green), var(--cyan));
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.3s;
+    }
+
+    .cert-card:hover::before { transform: scaleX(1); }
+    .cert-card:hover { background: var(--bg3); }
+
+    .cert-icon {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: var(--green);
+      margin-bottom: 0.75rem;
+      letter-spacing: 0.1em;
+    }
+
+    .cert-name {
+      font-family: var(--display);
+      font-size: 1rem;
+      font-weight: 600;
+      color: #fff;
+      line-height: 1.3;
+    }
+
+    .cert-issuer {
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      color: var(--text-dim);
+      margin-top: 0.5rem;
+      letter-spacing: 0.05em;
+    }
+
+    /* PROJECTS */
+    .project-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .project-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      padding: 2rem;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+
+    .project-card:hover {
+      border-color: rgba(0,255,157,0.4);
+      transform: translateY(-3px);
+    }
+
+    .project-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, var(--green), var(--cyan));
+    }
+
+    .project-num {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      color: var(--dim-green);
+      letter-spacing: 0.2em;
+      margin-bottom: 1rem;
+    }
+
+    .project-name {
+      font-family: var(--display);
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 0.75rem;
+    }
+
+    .project-desc {
+      font-size: 0.9rem;
+      color: var(--text-dim);
+      font-weight: 300;
+      margin-bottom: 1.5rem;
+    }
+
+    .project-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .tag {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      color: var(--cyan);
+      border: 1px solid var(--border-cyan);
+      padding: 0.2rem 0.5rem;
+      letter-spacing: 0.05em;
+    }
+
+    .project-link {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      color: var(--green);
+      text-decoration: none;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+
+    .project-link:hover { color: #fff; }
+    .project-link::after { content: ' →'; }
+
+    /* SKILLS */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .skill-group {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      padding: 1.5rem;
+    }
+
+    .skill-group-title {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      color: var(--green);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .skill-list {
+      list-style: none;
+    }
+
+    .skill-list li {
+      font-size: 0.9rem;
+      color: var(--text-dim);
+      padding: 0.3rem 0;
+      font-weight: 300;
+    }
+
+    .skill-list li::before {
+      content: '▸ ';
+      color: var(--cyan);
+      font-size: 0.7rem;
+    }
+
+    /* CONTACT */
+    .contact-wrapper {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+
+    .contact-intro {
+      font-size: 1.05rem;
+      color: var(--text-dim);
+      font-weight: 300;
+      margin-bottom: 2rem;
+    }
+
+    .contact-links {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .contact-link {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      text-decoration: none;
+      padding: 1rem 1.25rem;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      transition: border-color 0.2s, transform 0.2s;
+    }
+
+    .contact-link:hover {
+      border-color: rgba(0,255,157,0.4);
+      transform: translateX(4px);
+    }
+
+    .contact-link-icon {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: var(--green);
+      min-width: 60px;
+      letter-spacing: 0.05em;
+    }
+
+    .contact-link-label {
+      font-size: 0.9rem;
+      color: var(--text);
+      font-weight: 300;
+    }
+
+    .contact-availability {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      padding: 2rem;
+    }
+
+    .avail-title {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      color: var(--green);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+    }
+
+    .avail-status {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .avail-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--green);
+      border-radius: 50%;
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    .avail-text {
+      font-family: var(--display);
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #fff;
+    }
+
+    .avail-note {
+      font-size: 0.875rem;
+      color: var(--text-dim);
+      font-weight: 300;
+      line-height: 1.8;
+    }
+
+    /* FOOTER */
+    footer {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 3rem 2rem;
+      border-top: 1px solid var(--border);
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      color: var(--text-dim);
+      letter-spacing: 0.1em;
+    }
+
+    footer span { color: var(--green); }
+
+    /* ANIMATIONS */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(0,255,157,0.4); }
+      50% { opacity: 0.7; box-shadow: 0 0 0 6px rgba(0,255,157,0); }
+    }
+
+    /* SCROLL REVEAL */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      nav { padding: 1rem; }
+      .nav-links { gap: 1rem; }
+      .nav-links a { font-size: 0.65rem; }
+      .about-grid { grid-template-columns: 1fr; }
+      .contact-wrapper { grid-template-columns: 1fr; gap: 2rem; }
+      section { padding: 4rem 1.25rem; }
+      #hero { padding: 7rem 1.25rem 4rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-brand"><span>~/</span>cybersecrob85</div>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#experience">XP</a></li>
+      <li><a href="#certs">Certs</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-tag">Cybersecurity Professional · Orlando, FL</div>
+    <h1 class="hero-name">Robert Potter</h1>
+    <div class="hero-title">The Cyber Wizard</div>
+    <p class="hero-sub">Air Force veteran. ThreatLocker engineer. Zero-trust practitioner. Building a career at the intersection of operational technology and enterprise security.</p>
+    <div class="hero-badges">
+      <span class="badge">Zero Trust</span>
+      <span class="badge">Endpoint Security</span>
+      <span class="badge">OT/ICS</span>
+      <span class="badge">Threat Analysis</span>
+      <span class="badge">USAF Veteran</span>
+    </div>
+    <div class="hero-cta">
+      <a href="#contact" class="btn btn-primary">Get In Touch</a>
+      <a href="#projects" class="btn btn-secondary">View Projects</a>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="reveal">
+      <div class="section-label">Identity</div>
+      <h2 class="section-title">About Me</h2>
+    </div>
+    <div class="about-grid reveal">
+      <div class="about-text">
+        <p>I started my career in the U.S. Air Force as a Security Forces member, where I built a foundation in access control, physical security, and incident response. That military discipline never left me.</p>
+        <p>From there I transitioned to Walt Disney World, supporting ride and show systems for six years. Working with legacy hardware, coordinating with engineering teams, and navigating real operational technology environments gave me an edge most security professionals don't have on paper.</p>
+        <p>Today I work at ThreatLocker as an Approval Request Engineer, applying zero-trust principles and analyzing endpoint behavior every day. I'm also completing my A.S. in Information Technology at Full Sail University (3.98 GPA), transitioning directly into a B.S. in Cybersecurity.</p>
+        <p>My goal is simple: bring the rigor of military service, the hands-on reality of OT environments, and the analytical depth of modern cybersecurity into a SOC or critical infrastructure role.</p>
+      </div>
+      <div class="about-stats">
+        <div class="stat-box">
+          <span class="stat-num">7+</span>
+          <span class="stat-label">Certifications</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-num">3.98</span>
+          <span class="stat-label">GPA</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-num">6yr</span>
+          <span class="stat-label">Disney OT Exp.</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-num">4yr</span>
+          <span class="stat-label">USAF Service</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <div class="reveal">
+      <div class="section-label">Career</div>
+      <h2 class="section-title">Experience</h2>
+    </div>
+    <div class="timeline">
+
+      <div class="timeline-item reveal">
+        <div class="timeline-date">2026 — PRESENT</div>
+        <div class="timeline-role">Approval Request Engineer</div>
+        <div class="timeline-company">ThreatLocker</div>
+        <p class="timeline-desc">Promoted from Application Technician. Working within a zero-trust security platform focused on application allowlisting, ringfencing, and endpoint policy enforcement. Daily work includes reviewing audit logs, supporting enterprise security configurations, and working directly with security-focused tooling at the application layer.</p>
+      </div>
+
+      <div class="timeline-item reveal">
+        <div class="timeline-date">2025 — 2026</div>
+        <div class="timeline-role">Application Technician</div>
+        <div class="timeline-company">ThreatLocker</div>
+        <p class="timeline-desc">Supported enterprise clients in configuring and managing zero-trust endpoint security controls. Reviewed application behavior, analyzed audit logs, and collaborated with security teams to enforce least-privilege policies across diverse environments.</p>
+      </div>
+
+      <div class="timeline-item reveal">
+        <div class="timeline-date">2019 — 2025</div>
+        <div class="timeline-role">Computer Ride & Show Technician</div>
+        <div class="timeline-company">Walt Disney World</div>
+        <p class="timeline-desc">Supported legacy and modern ride systems with a focus on preventive maintenance, server and audio equipment, and coordinating with engineering teams on security-adjacent hardware upgrades. Gained direct exposure to operational technology (OT) environments, legacy system constraints, and real-world critical infrastructure operations.</p>
+      </div>
+
+      <div class="timeline-item reveal">
+        <div class="timeline-date">2011 — 2015</div>
+        <div class="timeline-role">Security Forces</div>
+        <div class="timeline-company">U.S. Air Force</div>
+        <p class="timeline-desc">Access control operations, vulnerability assessments, incident response, and security procedures in high-accountability environments. Built foundational discipline in physical and operational security that continues to inform every technical role.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- EDUCATION -->
+  <section id="education">
+    <div class="reveal">
+      <div class="section-label">Education</div>
+      <h2 class="section-title">Academic Background</h2>
+    </div>
+    <div class="timeline">
+      <div class="timeline-item reveal">
+        <div class="timeline-date">2026 — 2027 (TARGET)</div>
+        <div class="timeline-role">B.S. Cybersecurity</div>
+        <div class="timeline-company">Full Sail University</div>
+        <p class="timeline-desc">Continuing directly from A.S. program. Focus on advanced security engineering, threat intelligence, and critical infrastructure protection.</p>
+      </div>
+      <div class="timeline-item reveal">
+        <div class="timeline-date">2025 — 2026</div>
+        <div class="timeline-role">A.S. Information Technology</div>
+        <div class="timeline-company">Full Sail University · GPA 3.98 · Course Director's Award</div>
+        <p class="timeline-desc">Coursework covering cloud networking (Azure, SDN, VPNs), cybersecurity fundamentals, scripting, network design, and security infrastructure planning. Course Director's Award recipient, January 2026.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CERTIFICATIONS -->
+  <section id="certs">
+    <div class="reveal">
+      <div class="section-label">Credentials</div>
+      <h2 class="section-title">Certifications</h2>
+    </div>
+    <div class="cert-grid reveal">
+      <div class="cert-card">
+        <div class="cert-icon">[COMPTIA]</div>
+        <div class="cert-name">Security+</div>
+        <div class="cert-issuer">CompTIA</div>
+      </div>
+      <div class="cert-card">
+        <div class="cert-icon">[COMPTIA]</div>
+        <div class="cert-name">Network+</div>
+        <div class="cert-issuer">CompTIA</div>
+      </div>
+      <div class="cert-card">
+        <div class="cert-icon">[COMPTIA]</div>
+        <div class="cert-name">CySA+</div>
+        <div class="cert-issuer">CompTIA Cybersecurity Analyst</div>
+      </div>
+      <div class="cert-card">
+        <div class="cert-icon">[COMPTIA]</div>
+        <div class="cert-name">CSAP</div>
+        <div class="cert-issuer">CompTIA Security Analytics Professional</div>
+      </div>
+      <div class="cert-card">
+        <div class="cert-icon">[ISC2]</div>
+        <div class="cert-name">Certified in Cybersecurity (CC)</div>
+        <div class="cert-issuer">ISC2</div>
+      </div>
+      <div class="cert-card">
+        <div class="cert-icon">[GOOGLE]</div>
+        <div class="cert-name">Cybersecurity Certificate</div>
+        <div class="cert-issuer">Google</div>
+      </div>
+      <div class="cert-card">
+        <div class="cert-icon">[GOOGLE]</div>
+        <div class="cert-name">IT Support Professional</div>
+        <div class="cert-issuer">Google</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <div class="reveal">
+      <div class="section-label">Work</div>
+      <h2 class="section-title">Projects</h2>
+    </div>
+    <div class="project-grid">
+
+      <div class="project-card reveal">
+        <div class="project-num">PROJECT_01</div>
+        <div class="project-name">College Writeups & Lab Work</div>
+        <p class="project-desc">Documented coursework including network design, security infrastructure planning, VLAN segmentation, Active Directory implementation, and hands-on lab configurations.</p>
+        <div class="project-tags">
+          <span class="tag">Python</span>
+          <span class="tag">Active Directory</span>
+          <span class="tag">VLANs</span>
+          <span class="tag">Azure</span>
+        </div>
+        <a href="https://github.com/cybersecrob85/CollegeWriteUps" target="_blank" class="project-link">View on GitHub</a>
+      </div>
+
+      <div class="project-card reveal">
+        <div class="project-num">PROJECT_02</div>
+        <div class="project-name">Marconi Law LLC — Network Design</div>
+        <p class="project-desc">Designed and implemented a segmented office network including VLAN architecture, IP schema (192.168.30.0/24), firewall rules, Active Directory, and a full WordPress + Ghost deployment with NginX reverse proxy on Docker.</p>
+        <div class="project-tags">
+          <span class="tag">Network Design</span>
+          <span class="tag">VLAN</span>
+          <span class="tag">Docker</span>
+          <span class="tag">NginX</span>
+        </div>
+        <a href="https://github.com/cybersecrob85/CollegeWriteUps" target="_blank" class="project-link">View Details</a>
+      </div>
+
+      <div class="project-card reveal">
+        <div class="project-num">PROJECT_03</div>
+        <div class="project-name">Zero Trust World 2026 — Lab Support</div>
+        <p class="project-desc">Assisted with live lab exercises at ThreatLocker's Zero Trust World conference including SQL injection demos, Metasploit exploitation, AI model hacking, and USB Rubber Ducky demonstrations.</p>
+        <div class="project-tags">
+          <span class="tag">Metasploit</span>
+          <span class="tag">SQL Injection</span>
+          <span class="tag">Zero Trust</span>
+          <span class="tag">Red Team</span>
+        </div>
+        <a href="https://github.com/cybersecrob85" target="_blank" class="project-link">View Profile</a>
+      </div>
+
+      <div class="project-card reveal">
+        <div class="project-num">PROJECT_04</div>
+        <div class="project-name">Cyber Labs & TryHackMe Writeups</div>
+        <p class="project-desc">Home lab work and TryHackMe challenge writeups covering penetration testing, privilege escalation, network analysis, and security tooling on Kali Linux, Windows Server, and custom VM environments.</p>
+        <div class="project-tags">
+          <span class="tag">Kali Linux</span>
+          <span class="tag">Nessus</span>
+          <span class="tag">Wireshark</span>
+          <span class="tag">Nmap</span>
+        </div>
+        <a href="https://github.com/cybersecrob85/Cyber_Labs" target="_blank" class="project-link">View on GitHub</a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <div class="reveal">
+      <div class="section-label">Capabilities</div>
+      <h2 class="section-title">Skills</h2>
+    </div>
+    <div class="skills-grid">
+      <div class="skill-group reveal">
+        <div class="skill-group-title">Endpoint & Zero Trust</div>
+        <ul class="skill-list">
+          <li>ThreatLocker platform</li>
+          <li>Application allowlisting</li>
+          <li>Ringfencing policies</li>
+          <li>Audit log analysis</li>
+          <li>Endpoint policy enforcement</li>
+        </ul>
+      </div>
+      <div class="skill-group reveal">
+        <div class="skill-group-title">Vulnerability Management</div>
+        <ul class="skill-list">
+          <li>Nessus scanning</li>
+          <li>CVSS-based prioritization</li>
+          <li>Risk triage & mitigation</li>
+          <li>Security posture assessment</li>
+        </ul>
+      </div>
+      <div class="skill-group reveal">
+        <div class="skill-group-title">Networking & Systems</div>
+        <ul class="skill-list">
+          <li>Active Directory & DNS</li>
+          <li>VLAN design & segmentation</li>
+          <li>Firewall rule management</li>
+          <li>Azure cloud networking</li>
+          <li>Linux (Kali, Ubuntu, Rocky)</li>
+          <li>Windows Server</li>
+        </ul>
+      </div>
+      <div class="skill-group reveal">
+        <div class="skill-group-title">Scripting & Tooling</div>
+        <ul class="skill-list">
+          <li>Python</li>
+          <li>PowerShell</li>
+          <li>GitHub Actions (CodeQL, Bandit)</li>
+          <li>Wireshark & Nmap</li>
+          <li>Metasploit</li>
+        </ul>
+      </div>
+      <div class="skill-group reveal">
+        <div class="skill-group-title">OT / ICS</div>
+        <ul class="skill-list">
+          <li>Legacy system operations</li>
+          <li>Purdue Model familiarity</li>
+          <li>Compensating controls</li>
+          <li>NIST SP 800-82 (working knowledge)</li>
+          <li>IEC 62443 (working knowledge)</li>
+        </ul>
+      </div>
+      <div class="skill-group reveal">
+        <div class="skill-group-title">Community & Recognition</div>
+        <ul class="skill-list">
+          <li>DC407 — DEFCON Orlando chapter</li>
+          <li>BSides Orlando — 18hrs volunteer</li>
+          <li>Bowtiesecurityguy Podcast guest</li>
+          <li>Ginger Hacker Initiative contributor</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="reveal">
+      <div class="section-label">Connect</div>
+      <h2 class="section-title">Get In Touch</h2>
+    </div>
+    <div class="contact-wrapper">
+      <div class="reveal">
+        <p class="contact-intro">I'm always open to connecting with security professionals, exploring new opportunities, and contributing to the community. Whether it's a role, a collaboration, or just a conversation — reach out.</p>
+        <div class="contact-links">
+          <a href="mailto:cybersec.rob85@gmail.com" class="contact-link">
+            <span class="contact-link-icon">[EMAIL]</span>
+            <span class="contact-link-label">cybersec.rob85@gmail.com</span>
+          </a>
+          <a href="https://linkedin.com/in/robertpotterthesecuritywizard" target="_blank" class="contact-link">
+            <span class="contact-link-icon">[LINKEDIN]</span>
+            <span class="contact-link-label">robertpotterthesecuritywizard</span>
+          </a>
+          <a href="https://github.com/cybersecrob85" target="_blank" class="contact-link">
+            <span class="contact-link-icon">[GITHUB]</span>
+            <span class="contact-link-label">cybersecrob85</span>
+          </a>
+        </div>
+      </div>
+      <div class="contact-availability reveal">
+        <div class="avail-title">// Current Status</div>
+        <div class="avail-status">
+          <div class="avail-dot"></div>
+          <div class="avail-text">Open to Opportunities</div>
+        </div>
+        <p class="avail-note">Currently working as an Approval Request Engineer at ThreatLocker while actively pursuing growth into EDR, SOC Analyst, or OT/ICS cybersecurity roles. Completing A.S. in IT at Full Sail University, June 2026. CompTIA SecOT+ in progress for November 2026.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>© 2026 <span>Robert Potter</span> — The Cyber Wizard · Built with intent, deployed at <span>robertpotter.dev</span></p>
+  </footer>
+
+  <script>
+    // Scroll reveal
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => {
+            entry.target.classList.add('visible');
+          }, i * 80);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    reveals.forEach(el => observer.observe(el));
+
+    // Typewriter cursor blink on hero tag
+    const tag = document.querySelector('.hero-tag');
+    if (tag) {
+      setInterval(() => {
+        tag.style.borderRight = tag.style.borderRight ? '' : '2px solid #00ff9d';
+      }, 600);
+    }
+  </script>
+
+</body>
+</html>
